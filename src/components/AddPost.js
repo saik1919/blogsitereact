@@ -15,17 +15,26 @@ class AddPost extends Component {
     addThisPost(e) {
         const title = e.target.title.value;
         const desc = e.target.desc.value;
+        const newId = parseInt(localStorage.getItem("totalCount"), 10) + 1;
         axios
             .post(`//jsonplaceholder.typicode.com/posts`,
             {
                 title: title,
                 body: desc,
-                userId: 15
+                userId: 1
             })
             .then((response) => {
                 this.setState((prevState) => ({
                     success : true
                 }));
+                const newpost = {
+                    title: title,
+                    body: desc,
+                    userId: 1,
+                    id: newId
+                };
+                localStorage.setItem("newposts",JSON.stringify(newpost));
+                localStorage.setItem("totalCount",newId);
             })
             .catch((error) => {
                 this.setState((prevState) => ({

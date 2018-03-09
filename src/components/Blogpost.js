@@ -12,18 +12,19 @@ class Blogpost extends Component {
          };
     }
     componentDidMount() {
-        localStorage.clear();
         axios
             .get('http://jsonplaceholder.typicode.com/posts')
             .then((response) => {
+                const blogPost = response.data.filter((post, i) => {
+                    return post.id >= 1 && post.id <= 50
+                });
                 this.setState((prevState) => ({
-                    blogposts : response.data
+                    blogposts : blogPost
                 }));
-
-                localStorage.setItem("totalCount",this.state.blogposts.length);
+                localStorage.setItem("totalCount",response.data.length);
                 
                 const olderPost = response.data.filter((post, i) => {
-                    return post.id > 45 && post.id < 66
+                    return post.id >= 51 && post.id <= 100
                 });
                 localStorage.setItem("olderPost",JSON.stringify(olderPost))
                 
